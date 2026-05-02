@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRATIS — L'Âge du Jardinage Moderne</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0e;
+    --white: #f5f2ee;
+    --green: #7ab648;
+    --green-dark: #4a7a20;
+    --green-pale: #d4e8b8;
+    --sand: #c8b89a;
+    --charcoal: #2a2a2a;
+    --mist: #e8e4dd;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.12em;
+    color: var(--black); text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    text-decoration: none; font-size: 0.78rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--black); font-weight: 500;
+    transition: color 0.3s;
+  }
+  nav ul a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    background: var(--black);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 50%, #1e3510 0%, #0e0e0e 65%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(122,182,72,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(122,182,72,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 4rem; max-width: 700px;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1.6rem;
+    opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 10vw, 9rem);
+    line-height: 0.9; color: var(--white);
+    opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+  }
+  .hero-title .accent { color: var(--green); }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-style: italic;
+    color: var(--sand); margin-top: 1.8rem; max-width: 420px;
+    line-height: 1.6;
+    opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    margin-top: 3rem; padding: 1rem 2.2rem;
+    background: var(--green); color: var(--black);
+    text-decoration: none; font-size: 0.8rem; letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+  }
+  .hero-cta:hover { background: var(--green-pale); transform: translateX(4px); }
+  .hero-cta::after { content: '→'; font-size: 1rem; }
+
+  .hero-visual {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 48%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; animation: fadeIn 1.2s 0.6s forwards;
+  }
+  .hero-rings {
+    position: relative; width: 420px; height: 420px;
+  }
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(122,182,72,0.2);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: spin linear infinite;
+  }
+  .ring:nth-child(1) { width: 420px; height: 420px; animation-duration: 40s; }
+  .ring:nth-child(2) { width: 320px; height: 320px; animation-duration: 30s; animation-direction: reverse; border-color: rgba(122,182,72,0.15); }
+  .ring:nth-child(3) { width: 220px; height: 220px; animation-duration: 20s; border-color: rgba(122,182,72,0.3); }
+  .ring-dot {
+    position: absolute; width: 8px; height: 8px;
+    background: var(--green); border-radius: 50%;
+    top: 0; left: 50%; transform: translateX(-50%);
+  }
+  .hero-pot {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 6rem; filter: drop-shadow(0 0 40px rgba(122,182,72,0.3));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{ transform: translate(-50%,-54%); } 50%{ transform: translate(-50%,-46%); } }
+  @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,242,238,0.4);
+  }
+  .scroll-line {
+    width: 50px; height: 1px; background: rgba(122,182,72,0.4);
+    animation: lineExpand 2s ease-in-out infinite;
+  }
+  @keyframes lineExpand { 0%,100%{ width: 30px; } 50%{ width: 60px; } }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+  }
+  .section-divider {
+    width: 60px; height: 2px; background: var(--green); margin: 2rem 0;
+  }
+
+  /* ── SAVOIR-FAIRE ── */
+  #savoir {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center; background: var(--white);
+  }
+  .savoir-text .section-title { color: var(--black); }
+  .savoir-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem;
+  }
+  .savoir-pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem;
+  }
+  .pillar {
+    padding: 1.8rem; border: 1px solid var(--mist);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .pillar:hover { border-color: var(--green); transform: translateY(-4px); }
+  .pillar-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .pillar h4 {
+    font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 0.5rem;
+  }
+  .pillar p { font-size: 0.88rem; color: #777; line-height: 1.6; }
+  .savoir-visual {
+    position: relative; display: flex; justify-content: center;
+  }
+  .savoir-card {
+    background: var(--black); color: var(--white);
+    padding: 4rem 3rem; position: relative; overflow: hidden;
+    width: 380px;
+  }
+  .savoir-card::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(122,182,72,0.2), transparent 70%);
+  }
+  .savoir-card-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 6rem;
+    color: rgba(255,255,255,0.05); line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .savoir-card h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic;
+    color: var(--green-pale); margin-bottom: 1rem;
+  }
+  .savoir-card p { font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,0.65); }
+
+  /* ── CATALOGUE ── */
+  #catalogue { background: var(--black); color: var(--white); }
+  #catalogue .section-title { color: var(--white); }
+
+  .catalogue-tabs {
+    display: flex; gap: 0; margin: 3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .tab {
+    padding: 0.8rem 2rem; font-size: 0.78rem; letter-spacing: 0.2em;
+    text-transform: uppercase; cursor: pointer; color: rgba(255,255,255,0.4);
+    font-weight: 500; transition: all 0.3s; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; background: none; border-left: none; border-top: none; border-right: none;
+  }
+  .tab.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: grid; }
+
+  #pots-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
+  #caches-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
+  #premium-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
+
+  .product-card {
+    position: relative; overflow: hidden; cursor: pointer;
+    background: var(--charcoal); aspect-ratio: 3/4;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    transition: transform 0.4s;
+  }
+  .product-card:hover { transform: scale(0.98); }
+  .product-card:hover .card-overlay { opacity: 1; }
+  .product-card:hover .card-tag { transform: translateY(0); opacity: 1; }
+  .card-emoji {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+    transition: transform 0.4s;
+  }
+  .product-card:hover .card-emoji { transform: translate(-50%, -55%) scale(1.1); }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 50%);
+    opacity: 0.6; transition: opacity 0.4s;
+  }
+  .card-info { position: relative; z-index: 2; }
+  .card-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+    letter-spacing: 0.05em; color: var(--white);
+  }
+  .card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 0.3rem; }
+  .card-tag {
+    display: inline-block; margin-top: 0.8rem;
+    padding: 0.35rem 0.9rem; background: var(--green);
+    color: var(--black); font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 500;
+    transform: translateY(10px); opacity: 0; transition: all 0.3s;
+  }
+  /* unique card backgrounds */
+  .card-bg-1 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+  .card-bg-2 { background: linear-gradient(135deg, #0d1f0a, #1a3010); }
+  .card-bg-3 { background: linear-gradient(135deg, #1a1a0d, #2a2a15); }
+  .card-bg-4 { background: linear-gradient(135deg, #0d1520, #1a2a3a); }
+  .card-bg-5 { background: linear-gradient(135deg, #200d0d, #3a1515); }
+  .card-bg-6 { background: linear-gradient(135deg, #151520, #25253a); }
+
+  /* ── PROCESS ── */
+  #process { background: var(--mist); }
+  #process .section-title { color: var(--black); }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 4rem; position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute; top: 2.5rem; left: 12.5%; right: 12.5%;
+    height: 1px; background: linear-gradient(90deg, var(--green), var(--sand));
+    z-index: 0;
+  }
+  .step {
+    padding: 0 2rem; position: relative; z-index: 1;
+  }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--black); color: var(--green);
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  .step h4 {
+    font-size: 0.82rem; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 0.8rem;
+  }
+  .step p { font-size: 0.87rem; color: #666; line-height: 1.7; }
+
+  /* ── MATERIAUX ── */
+  #materiaux {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    padding: 0; overflow: hidden;
+  }
+  .mat-left {
+    background: var(--black); color: var(--white);
+    padding: 7rem 5rem; display: flex; flex-direction: column; justify-content: center;
+  }
+  .mat-left .section-label { color: var(--green); }
+  .mat-left .section-title { color: var(--white); }
+  .mat-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .mat-item {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mat-swatch {
+    width: 48px; height: 48px; border-radius: 4px; flex-shrink: 0;
+  }
+  .mat-item h5 { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; }
+  .mat-item p { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem; }
+  .mat-right {
+    background: var(--green);
+    padding: 7rem 5rem; display: flex; flex-direction: column; justify-content: center;
+  }
+  .mat-right .section-title { color: var(--black); }
+  .mat-right .section-label { color: var(--black); opacity: 0.6; }
+  .mat-right .section-divider { background: var(--black); }
+  .sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .size-box {
+    background: rgba(0,0,0,0.12); padding: 2rem 1.5rem;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 0.8rem;
+  }
+  .size-icon { font-size: 2.5rem; }
+  .size-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--black); }
+  .size-dim { font-size: 0.75rem; color: rgba(0,0,0,0.6); letter-spacing: 0.1em; }
+
+  /* ── TESTIMONIAL ── */
+  #temoignage {
+    background: var(--black); color: var(--white);
+    text-align: center; padding: 8rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  #temoignage::before {
+    content: '"'; font-family: 'Cormorant Garamond', serif;
+    font-size: 30rem; line-height: 0.8; color: rgba(122,182,72,0.04);
+    position: absolute; top: -2rem; left: 50%; transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-style: italic; line-height: 1.5; max-width: 800px; margin: 0 auto;
+    color: var(--white); position: relative; z-index: 1;
+  }
+  .testimonial-author {
+    margin-top: 2.5rem; font-size: 0.75rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--green);
+  }
+  .stars { color: var(--green); font-size: 1rem; letter-spacing: 0.2rem; margin-bottom: 2.5rem; }
+
+  /* ── CONTACT ── */
+  #contact {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    padding: 0; min-height: 70vh;
+  }
+  .contact-left {
+    background: var(--green-pale); padding: 7rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-left .section-title { color: var(--black); }
+  .contact-info { margin-top: 3rem; display: flex; flex-direction: column; gap: 2rem; }
+  .contact-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .contact-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .contact-item h5 { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; color: #555; }
+  .contact-item p { font-size: 1rem; margin-top: 0.3rem; color: var(--black); }
+  .contact-right {
+    background: var(--black); padding: 7rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-right h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic;
+    color: var(--green-pale); margin-bottom: 2.5rem;
+  }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label {
+    display: block; font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); color: var(--white);
+    padding: 0.9rem 1.2rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; outline: none; transition: border-color 0.3s;
+    appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--green);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select { background-color: #1a1a1a; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    width: 100%; padding: 1.1rem; background: var(--green); color: var(--black);
+    border: none; font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase;
+    font-weight: 500; cursor: pointer; transition: background 0.3s, transform 0.2s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { background: var(--green-pale); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808; color: rgba(255,255,255,0.3);
+    padding: 3rem 4rem; display: flex;
+    justify-content: space-between; align-items: center;
+    font-size: 0.75rem; letter-spacing: 0.1em;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); }
+  .footer-logo span { color: var(--green); }
+  footer nav ul { flex-direction: row; gap: 2rem; }
+  footer nav ul a { color: rgba(255,255,255,0.3); font-size: 0.7rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    nav ul { display: none; }
+    section { padding: 5rem 2rem; }
+    #savoir, #materiaux, #contact { grid-template-columns: 1fr; }
+    .savoir-visual { display: none; }
+    #pots-grid, #caches-grid, #premium-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .process-steps::before { display: none; }
+    .hero-content { padding: 0 2rem; }
+    .hero-visual { display: none; }
+    .mat-left, .mat-right, .contact-left, .contact-right { padding: 5rem 2rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    footer nav ul { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">STR<span>A</span>TIS</a>
+  <ul>
+    <li><a href="#savoir">Savoir-faire</a></li>
+    <li><a href="#catalogue">Catalogue</a></li>
+    <li><a href="#process">Processus</a></li>
+    <li><a href="#materiaux">Matériaux</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Impression 3D · Artisanat numérique · Sur mesure</p>
+    <h1 class="hero-title">L'ÂGE DU<br><span class="accent">JARDINAGE</span><br>MODERNE</h1>
+    <p class="hero-sub">Des créations uniques de pots et cache-pots imprimés en 3D — conçus pour sublimer chacune de vos plantes.</p>
+    <a href="#catalogue" class="hero-cta">Découvrir le catalogue</a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-rings">
+      <div class="ring"><div class="ring-dot"></div></div>
+      <div class="ring"><div class="ring-dot"></div></div>
+      <div class="ring"><div class="ring-dot"></div></div>
+      <div class="hero-pot">🌿</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- SAVOIR-FAIRE -->
+<section id="savoir">
+  <div class="savoir-text">
+    <p class="section-label">Notre identité</p>
+    <h2 class="section-title">Un artisan<br>du numérique</h2>
+    <div class="section-divider"></div>
+    <p>Auto-entrepreneur passionné, je conçois et imprime chaque pièce à la demande. Chaque création est pensée pour allier esthétique contemporaine et fonctionnalité durable.</p>
+    <p>De la modélisation 3D jusqu'à l'impression finale, je maîtrise l'intégralité du processus de création pour vous offrir un résultat unique et personnel.</p>
+    <div class="savoir-pillars">
+      <div class="pillar">
+        <div class="pillar-icon">🎨</div>
+        <h4>Design exclusif</h4>
+        <p>Modèles originaux créés sur-mesure selon vos envies</p>
+      </div>
+      <div class="pilla
